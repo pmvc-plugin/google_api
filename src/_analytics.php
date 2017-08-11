@@ -8,6 +8,11 @@ class Analytics
 {
     const SCOPE_URI = 'https://www.googleapis.com/auth/analytics.readonly';
     const GA_API_URI = 'https://www.googleapis.com/analytics/v3/data/ga';
+
+    /**
+     * Params
+     * @see https://developers.google.com/analytics/devguides/reporting/core/v3/reference#q_summary
+     */
     public function __invoke($params)
     {
         if (empty($params)) {
