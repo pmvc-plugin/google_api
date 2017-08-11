@@ -18,7 +18,8 @@ class JWT
             'grant_type'=>$data['grantType'],
             'assertion'=>$jwt,
         ];
-        $curl = \PMVC\plug('curl');
+        $caller = $this->caller;
+        $curl = \PMVC\plug($caller['curl']);
         $token = null;
         $curl->post(
             $data['tokenUri'],

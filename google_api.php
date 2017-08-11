@@ -23,4 +23,11 @@ class google_api extends PlugIn
         $token = $jwt->getAccessToken($key);
         return $token;
     }
-}
+
+    public function init()
+    {
+        if (empty($this['curl'])) {
+            $this['curl'] = 'curl';
+        }
+    }
+}   

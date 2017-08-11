@@ -18,16 +18,19 @@ class Analytics
         if (empty($params)) {
             return !trigger_error('[Analytics] Empty params.');
         }
+        $caller = $this->caller;
         $oUrl = \PMVC\plug('url')->getUrl(self::GA_API_URI);
         $oUrl->query($params);
-        $oUrl->query->access_token = $this->caller->getAccessToken(self::SCOPE_URI);
-        $curl = \PMVC\plug('curl');
+        $oUrl->query->access_token = $caller->getAccessToken(self::SCOPE_URI);
+        $curl = \PMVC\plug($caller['curl']);
+        $result = null;
         $curl->get(
             $oUrl,
-            function($r){
-                \PMVC\d($r->body); 
+            function($r) use (&$result){
+                $result = \PMVC\fromJson($r->body); 
             }
         );
         $curl->process();
+        return $result;
     }
 }
