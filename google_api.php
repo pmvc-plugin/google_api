@@ -14,14 +14,20 @@ class google_api extends PlugIn
 
     public function getAccessToken($scopeUri)
     {
+        if (isset($this['accessToken'])) {
+            return [
+                'token'=>$this['accessToken']
+            ];
+        }
         $key = $this['key'];
         $key['grantType'] = self::GRANT_TYPE;
         $key['tokenUri'] = self::TOKEN_URI;
         $key['ttl'] = self::TTL;
         $key['scopeUri'] = $scopeUri;
         $jwt = $this->jwt();
-        $token = $jwt->getAccessToken($key);
-        return $token;
+        $result = $jwt->getAccessToken($key);
+        $this['accessToken'] = $result['token'];
+        return $result;
     }
 
     public function init()

@@ -16,7 +16,7 @@ class JWT
         $jwt = $this->generateSignedJWT($data);
         $params = [
             'grant_type'=>$data['grantType'],
-            'assertion'=>$jwt,
+            'assertion'=>$jwt['jwt'],
         ];
         $caller = $this->caller;
         $curl = \PMVC\plug($caller['curl']);
@@ -36,7 +36,10 @@ class JWT
             $params
         );
         $curl->process();
-        return $token;
+        return [
+            'token'=>$token,
+            'expire'=>$jwt['expire']
+        ];
     }
 
     public function generateSignedJWT($data)
@@ -50,11 +53,12 @@ class JWT
         $interval = floor($t/$data['ttl']);
         $t = $data['ttl'] * $interval;
         // -->
+        $expire = $t + $data['ttl'];
         $params = [
             'iss'  => $data['clientEmail'],
             'scope'=> $data['scopeUri'],
             'aud'  => $data['tokenUri'],
-            'exp'  => $t + $data['ttl'],
+            'exp'  => $expire,
             'iat'  => $t,
         ];
         $encodings = [
@@ -73,6 +77,9 @@ class JWT
         );
         $encodings[] = base64_encode($sig);
         $jwt = implode('.', $encodings);
-        return $jwt;
+        return [
+            'jwt' =>$jwt,
+            'expire'=>$expire
+        ];
     }
 }

@@ -21,7 +21,8 @@ class Analytics
         $caller = $this->caller;
         $oUrl = \PMVC\plug('url')->getUrl(self::GA_API_URI);
         $oUrl->query($params);
-        $oUrl->query->access_token = $caller->getAccessToken(self::SCOPE_URI);
+        $accessToken = $caller->getAccessToken(self::SCOPE_URI);
+        $oUrl->query->access_token = $accessToken['token'];
         $curl = \PMVC\plug($caller['curl']);
         $result = null;
         $curl->get(
