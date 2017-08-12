@@ -46,6 +46,10 @@ class JWT
             'typ'=>'JWT',
         ];
         $t = time();
+        // <-- For cache to get same hash before expire. 
+        $interval = floor($t/$data['ttl']);
+        $t = $data['ttl'] * $interval;
+        // -->
         $params = [
             'iss'  => $data['clientEmail'],
             'scope'=> $data['scopeUri'],
