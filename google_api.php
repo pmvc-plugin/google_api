@@ -6,6 +6,8 @@ use PMVC\PlugIn;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\google_api';
 
+\PMVC\l(__DIR__.'/src/BaseApi.php');
+
 class google_api extends PlugIn
 {
     const GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer';

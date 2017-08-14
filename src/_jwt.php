@@ -23,14 +23,14 @@ class JWT
         $token = null;
         $curl->post(
             $data['tokenUri'],
-            function($r) use(&$token){
+            function($r, $curl) use(&$token){
                 $json = \PMVC\fromJson($r->body);
                 $token = \PMVC\get(
                     $json,
                     'access_token'
                 );
                 if (empty($token)) {
-                    trigger_error('Get token failed. '. print_r($r, true));
+                    trigger_error('Get token failed. '. print_r([$r, $curl], true));
                 }
             },
             $params
