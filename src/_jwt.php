@@ -10,7 +10,18 @@ class JWT
     {
         return $this;
     }
-
+    
+    /**
+     * @params array $data
+     *  [
+     *      'privateKey',
+     *      'clientEmail',
+     *      'grantType',
+     *      'tokenUri',
+     *      'ttl',
+     *      'scopeUri'
+     *  ]
+     */
     public function getAccessToken($data)
     {
         $jwt = $this->generateSignedJWT($data);
