@@ -59,11 +59,12 @@ class JWT
             'alg'=>'RS256',
             'typ'=>'JWT',
         ];
-        $t = time();
+
         // <-- For cache to get same hash before expire. 
-        $interval = floor($t/$data['ttl']);
+        $interval = floor(time()/$data['ttl']);
         $t = $data['ttl'] * $interval;
         // -->
+
         $expire = $t + $data['ttl'];
         $params = [
             'iss'  => $data['clientEmail'],
